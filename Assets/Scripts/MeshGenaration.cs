@@ -20,19 +20,12 @@ public class MeshGenaration : MonoBehaviour
    private List<Vector3> _verticesList;
    private List<int> _triaglesList;
    private float _phi = 0;
-   
+   [SerializeField]private bool dir = false;
+   [SerializeField]private Transform parent;
    private void Start()
    {
      Init();
      
-   }
-
-   private void Update()
-   {
-       if (Input.GetKey(KeyCode.A))
-       {
-           AddShape();
-       }
    }
    private void Init()
    {
@@ -42,15 +35,10 @@ public class MeshGenaration : MonoBehaviour
       _meshFillter = GetComponent<MeshFilter>();
       _oldVertices = new Vector3[4];
       _newVertices = new Vector3[4];
-      CreateShape();
+     
    }
-
-   private void CreateShape()
-   {
-       
-   }
-
-   private void AddShape()
+   
+   internal void AddShape()
    {
        if (!_isCreated)
        {
@@ -64,8 +52,9 @@ public class MeshGenaration : MonoBehaviour
            _isCreated = true;
        }
 
-       _phi += _deltaPhi;
-       if (_phi >= 360 + _deltaPhi) return;
+       var deltaphi = _deltaPhi*Time.deltaTime;
+       _phi += deltaphi;
+       if (_phi >= 360 + deltaphi) return;
        if (_phi >= 360)
        {
            for (int i = 0; i < 6; i++)
@@ -89,6 +78,11 @@ public class MeshGenaration : MonoBehaviour
            _mesh.RecalculateNormals();
            _meshFillter.mesh = _mesh;
            return;
+       }
+
+       if (dir)
+       {
+           parent.transform.eulerAngles += Vector3.up * deltaphi;
        }
        var sinPhi = Mathf.Sin(_phi*2*Mathf.PI/360);
        var cosPhi = Mathf.Cos(_phi*2*Mathf.PI/360);
