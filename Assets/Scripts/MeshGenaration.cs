@@ -16,7 +16,6 @@ public class MeshGenaration : MonoBehaviour
    private bool _isCreated;
    
    private Vector3[] _newVertices;
-   private Vector3[] _oldVertices;
    private List<Vector3> _verticesList;
    private List<int> _triaglesList;
    private float _phi = 0;
@@ -33,7 +32,6 @@ public class MeshGenaration : MonoBehaviour
       _mesh = new Mesh();
       _triaglesList = new List<int>();
       _meshFillter = GetComponent<MeshFilter>();
-      _oldVertices = new Vector3[4];
       _newVertices = new Vector3[4];
      
    }
